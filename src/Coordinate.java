@@ -5,10 +5,15 @@ import java.util.*;
 public class Coordinate {
     int row, column;
 
-    public Coordinate(int r, int c) {
-        Random generator = new Random();
-        row = generator.nextInt(r);
-        column = generator.nextInt(c);
+    public Coordinate(int r, int c, boolean random) {
+        if (random) {
+            Random generator = new Random();
+            row = generator.nextInt(r);
+            column = generator.nextInt(c);
+        } else {
+            row = r;
+            column = c;
+        }
     }
 
     @Override

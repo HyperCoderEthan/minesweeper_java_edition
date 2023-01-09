@@ -19,7 +19,10 @@ public class Test extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        Test gerald = new Test();
+        Font[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts();
+        for (int i = 0; i < fonts.length; i++) {
+            System.out.println(fonts[i].getName());
+        }
     }
 
     @Override

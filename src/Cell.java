@@ -4,15 +4,15 @@ import java.awt.event.*;
 
 public class Cell extends JButton {
     int rowIndex, columnIndex, num;
-    boolean mine, flagged;
+    boolean mine, flagged, removed;
 
-    public Cell(int row, int column) {
+    public Cell(int row, int column, Dimension cellSize) {
         rowIndex = row;
         columnIndex = column;
         flagged = false;
         mine = false;
-        setPreferredSize(new Dimension(20, 20));
-        setSize(20, 20);
+        setPreferredSize(cellSize);
+        setSize(cellSize);
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -40,7 +40,11 @@ public class Cell extends JButton {
 
     public boolean isFlagged() {return flagged;}
 
+    public boolean isRemoved() {return removed;}
+
     public void setNum(int num) {this.num = num;}
 
     public void setMine(boolean m) {mine = m;}
+
+    public void setRemoved(boolean r) {removed = r;}
 }

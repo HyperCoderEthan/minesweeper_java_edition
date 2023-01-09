@@ -4,14 +4,28 @@ import java.awt.event.*;
 
 public class MenuPanel extends JPanel{
     JButton easy, medium, hard;
+    GridBagConstraints locator;
 
     public MenuPanel() {
+        setLayout(new GridBagLayout());
+
         easy = new JButton("easy");
         medium = new JButton("medium");
         hard = new JButton("hard");
-        add(easy);
-        add(medium);
-        add(hard);
+
+        easy.setActionCommand("e");
+        medium.setActionCommand("m");
+        hard.setActionCommand("h");
+
+        locator = new GridBagConstraints();
+        locator.insets = new Insets(20, 20, 20, 20);
+        locator.gridx = 0;
+        locator.gridy = 0;
+        add(easy, locator);
+        locator.gridy = 1;
+        add(medium, locator);
+        locator.gridy = 2;
+        add(hard, locator);
     }
 
     public void addActionListener(ActionListener e) {
