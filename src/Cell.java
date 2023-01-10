@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.net.URL;
 
 public class Cell extends JButton {
     int rowIndex, columnIndex, num;
@@ -13,21 +14,29 @@ public class Cell extends JButton {
         mine = false;
         setPreferredSize(cellSize);
         setSize(cellSize);
+
+        ImageIcon flag = new ImageIcon("C:\\Users\\Dennis\\Desktop\\flag.png");
+
         addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mouseReleased(MouseEvent e) {
                 if (e.getButton() == MouseEvent.BUTTON3) {
                     if (isEnabled()) {
                         setEnabled(false);
+                        setIcon(flag);
+                        setDisabledIcon(flag);
                         flagged = true;
                     } else {
                         setEnabled(true);
+                        setIcon(null);
                         flagged = false;
                     }
                 }
             }
         });
 
+
+        //setIcon();
     }
 
     public int getRowIndex() {return rowIndex;}

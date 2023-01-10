@@ -45,15 +45,6 @@ public class Minefield extends JPanel implements ActionListener {
 
     }
 
-    public static void main(String[] args) {
-        JFrame test = new JFrame();
-        Minefield greg = new Minefield(20, 10, 18);
-        test.add(greg);
-        test.setSize(600, 600);
-        test.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        test.setVisible(true);
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         Cell pressedCell = (Cell)e.getSource();
@@ -139,7 +130,8 @@ public class Minefield extends JPanel implements ActionListener {
         locator.gridx = column;
         locator.gridy = row;
         if (cells[row][column].isMine()) {
-            add(new JLabel("mine"), locator);
+            ImageIcon mineImage = new ImageIcon("C:\\Users\\Dennis\\Desktop\\bomb.png");
+            add(new JLabel(mineImage), locator);
         } else if (cells[row][column].getNum() != 0){
             Color labelColor = getNumColor(cells[row][column].getNum());
 
