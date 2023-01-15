@@ -20,22 +20,27 @@ public class Minesweeper extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        String actionCommand = e.getActionCommand();
-        if (actionCommand.equals("e")) {
-            game = new GamePanel(9, 9, 10);
-        } else if (actionCommand.equals("m")) {
-            game = new GamePanel(16, 16, 40);
+        if (e.getSource().getClass().getName().equals("Minefield")) {
+
         } else {
-            game = new GamePanel(30, 16, 99);
+            String actionCommand = e.getActionCommand();
+            if (actionCommand.equals("e")) {
+                game = new GamePanel(9, 9, 10);
+            } else if (actionCommand.equals("m")) {
+                game = new GamePanel(16, 16, 40);
+            } else {
+                game = new GamePanel(30, 16, 99);
+            }
+            menu.setVisible(false);
+            game.addActionListener(this);
+            add(game);
+            repaint();
         }
-        menu.setVisible(false);
-        add(game);
-        repaint();
     }
 
     public static void main(String[] args) {
         Minesweeper firstGame = new Minesweeper();
-        firstGame.setSize(700, 700);
+        firstGame.pack();
         firstGame.setVisible(true);
     }
 }

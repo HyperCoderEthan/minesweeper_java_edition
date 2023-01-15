@@ -15,6 +15,7 @@ public class Minefield extends JPanel implements ActionListener {
     GridBagConstraints locator;
     int mineCount, nonMineCount, dugCellCount;
     boolean firstOpeningHappened = false;
+    ArrayList<ActionListener> listeners;
 
     public Minefield(int xCells, int yCells, int mineCount) {
         this.mineCount = mineCount;
@@ -44,6 +45,8 @@ public class Minefield extends JPanel implements ActionListener {
 
         nonMineCount = (rows * columns) - mineCount;
         dugCellCount = 0;
+
+        listeners = new ArrayList<>();
     }
 
     @Override
@@ -131,9 +134,7 @@ public class Minefield extends JPanel implements ActionListener {
         locator.gridx = column;
         locator.gridy = row;
         if (cells[row][column].isMine()) {
-            //ImageIcon mineImage = new ImageIcon("C:\\Users\\ethan\\desktop\\bomb.png");
-            //ImageIcon mineImage = new ImageIcon("..\\..\\..\\resources\\bomb.png");
-            ImageIcon mineImage = new ImageIcon("../../../resources/bomb.png");
+            ImageIcon mineImage = new ImageIcon("resources/bomb.png");
 
             add(new JLabel(mineImage), locator);
             cells[row][column].setRemoved(true);
@@ -172,15 +173,17 @@ public class Minefield extends JPanel implements ActionListener {
     public void setGameToWon() {
         Component greg = getParent();
         JOptionPane.showMessageDialog(greg, "YOU WON BABY");
+        fireActionEvent("w");
     }
 
     public void setGameToLost() {
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {
                 if (cells[i][j].isMine()) {
+                    remove(cells[i][j]);
                     locator.gridy = i;
                     locator.gridx = j;
-                    ImageIcon mineImage = new ImageIcon("C:\\Users\\Dennis\\Desktop\\bomb.png");
+                    ImageIcon mineImage = new ImageIcon("resources/bomb.png");
                     add(new JLabel(mineImage), locator);
                     cells[i][j].setRemoved(true);
                 } else {
@@ -188,6 +191,7 @@ public class Minefield extends JPanel implements ActionListener {
                 }
             }
         }
+        fireActionEvent("l");
     }
 
     public void digSurroundingCells (HashSet<Cell> set) {
@@ -300,5 +304,19 @@ public class Minefield extends JPanel implements ActionListener {
             output = false;
         }
         return output;
+    }
+
+    public void fireActionEvent(String command) {
+        ListIterator iter = listeners.listIterator();
+        while (iter.hasNext()) {
+            ActionListener listener =(ActionListener) iter.next();
+            ActionEvent action = new ActionEvent(this, 1, command);
+
+            listener.actionPerformed(action);
+        }
+    }
+
+    public void addActionListener(ActionListener listen) {
+        listeners.add(listen);
     }
 }

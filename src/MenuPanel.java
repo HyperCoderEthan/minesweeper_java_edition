@@ -21,11 +21,19 @@ public class MenuPanel extends JPanel{
         locator.insets = new Insets(20, 20, 20, 20);
         locator.gridx = 0;
         locator.gridy = 0;
-        add(easy, locator);
+        ImageIcon titleImg = new ImageIcon("resources/MINESWEEPER LOGO.png");
+        JLabel title = new JLabel(titleImg);
+        add(title, locator);
+
         locator.gridy = 1;
-        add(medium, locator);
+        add(easy, locator);
         locator.gridy = 2;
+        add(medium, locator);
+        locator.gridy = 3;
         add(hard, locator);
+
+
+
     }
 
     public void addActionListener(ActionListener e) {

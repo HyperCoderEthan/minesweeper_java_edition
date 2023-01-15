@@ -29,4 +29,8 @@ public class GamePanel extends JPanel {
         locator.gridy = 1;
         add(bottomPanel);
     }
+
+    public void addActionListener(ActionListener l) {
+        minefield.addActionListener(l);
+    }
 }
