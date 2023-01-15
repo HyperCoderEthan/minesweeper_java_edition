@@ -15,7 +15,7 @@ public class Cell extends JButton {
         setPreferredSize(cellSize);
         setSize(cellSize);
 
-        ImageIcon flag = new ImageIcon("C:\\Users\\Dennis\\Desktop\\flag.png");
+        ImageIcon flag = new ImageIcon("..\\resources\\flag.png");
 
         addMouseListener(new MouseAdapter() {
             @Override
@@ -34,8 +34,6 @@ public class Cell extends JButton {
                 }
             }
         });
-
-
         //setIcon();
     }
 

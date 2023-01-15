@@ -13,7 +13,7 @@ public class Minefield extends JPanel implements ActionListener {
     int rows;
     int columns;
     GridBagConstraints locator;
-    int mineCount;
+    int mineCount, nonMineCount, dugCellCount;
     boolean firstOpeningHappened = false;
 
     public Minefield(int xCells, int yCells, int mineCount) {
@@ -40,9 +40,10 @@ public class Minefield extends JPanel implements ActionListener {
         columns = cells[0].length;
 
         setSize(columns * cellSize.width, rows * cellSize.height);
-        System.out.println(getSize().width);
         setPreferredSize(new Dimension(columns * cellSize.width, rows * cellSize.height));
 
+        nonMineCount = (rows * columns) - mineCount;
+        dugCellCount = 0;
     }
 
     @Override
@@ -130,8 +131,13 @@ public class Minefield extends JPanel implements ActionListener {
         locator.gridx = column;
         locator.gridy = row;
         if (cells[row][column].isMine()) {
-            ImageIcon mineImage = new ImageIcon("C:\\Users\\Dennis\\Desktop\\bomb.png");
+            //ImageIcon mineImage = new ImageIcon("C:\\Users\\ethan\\desktop\\bomb.png");
+            //ImageIcon mineImage = new ImageIcon("..\\..\\..\\resources\\bomb.png");
+            ImageIcon mineImage = new ImageIcon("../../../resources/bomb.png");
+
             add(new JLabel(mineImage), locator);
+            cells[row][column].setRemoved(true);
+            setGameToLost();
         } else if (cells[row][column].getNum() != 0){
             Color labelColor = getNumColor(cells[row][column].getNum());
 
@@ -143,6 +149,7 @@ public class Minefield extends JPanel implements ActionListener {
             numLabel.setSize(cellSize);
             numLabel.setHorizontalTextPosition(JLabel.CENTER);
             add(numLabel, locator);
+            dugCellCount++;
         } else {
             HashSet<Cell> emptyCells = getAllContiguousCells(row, column);
             Iterator iter = emptyCells.iterator();
@@ -152,9 +159,35 @@ public class Minefield extends JPanel implements ActionListener {
                     remove(c);
                 }
             }
+            dugCellCount += emptyCells.size();
             digSurroundingCells(emptyCells);
         }
         cells[row][column].setRemoved(true);
+
+        if (dugCellCount == nonMineCount) {
+            setGameToWon();
+        }
+    }
+
+    public void setGameToWon() {
+        Component greg = getParent();
+        JOptionPane.showMessageDialog(greg, "YOU WON BABY");
+    }
+
+    public void setGameToLost() {
+        for (int i = 0; i < cells.length; i++) {
+            for (int j = 0; j < cells[i].length; j++) {
+                if (cells[i][j].isMine()) {
+                    locator.gridy = i;
+                    locator.gridx = j;
+                    ImageIcon mineImage = new ImageIcon("C:\\Users\\Dennis\\Desktop\\bomb.png");
+                    add(new JLabel(mineImage), locator);
+                    cells[i][j].setRemoved(true);
+                } else {
+                    cells[i][j].setEnabled(false);
+                }
+            }
+        }
     }
 
     public void digSurroundingCells (HashSet<Cell> set) {
