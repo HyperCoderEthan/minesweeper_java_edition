@@ -8,6 +8,7 @@ public class Minesweeper extends JFrame implements ActionListener {
     GridBagConstraints locator;
 
     public Minesweeper() {
+
         locator = new GridBagConstraints();
         menu = new MenuPanel();
         setLayout(new GridBagLayout());
@@ -20,10 +21,17 @@ public class Minesweeper extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        String actionCommand = e.getActionCommand();
         if (e.getSource().getClass().getName().equals("Minefield")) {
-
+            if (actionCommand.equals("w")) {
+                JOptionPane.showMessageDialog(this, "YOU WON BABY");
+            } else {
+                JOptionPane.showMessageDialog(this, "you lost and basically you are an idiot");
+            }
+            remove(game);
+            menu.setVisible(true);
+            revalidate();
         } else {
-            String actionCommand = e.getActionCommand();
             if (actionCommand.equals("e")) {
                 game = new GamePanel(9, 9, 10);
             } else if (actionCommand.equals("m")) {

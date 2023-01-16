@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class Minefield extends JPanel implements ActionListener {
     Cell[][] cells;
-    Dimension cellSize = new Dimension(20, 20);
+    Dimension cellSize = new Dimension(25, 25);
     Color color1 = new Color(236, 232, 221);
     Color color2 = new Color(248, 244, 234);
     int rows;
@@ -66,7 +66,8 @@ public class Minefield extends JPanel implements ActionListener {
         }
 
         digCell(y, x);
-        updateUI();
+        revalidate();
+        repaint();
     }
 
     @Override
@@ -90,7 +91,7 @@ public class Minefield extends JPanel implements ActionListener {
                         g2.setColor(color1);
                     }
                 }
-                g2.fillRect(cells[i][j].getX(), cells[i][j].getY(), 20, 20);
+                g2.fillRect(cells[i][j].getX(), cells[i][j].getY(), cellSize.width, cellSize.height);
             }
         }
         g2.dispose();
@@ -142,7 +143,7 @@ public class Minefield extends JPanel implements ActionListener {
         } else if (cells[row][column].getNum() != 0){
             Color labelColor = getNumColor(cells[row][column].getNum());
 
-            Font labelFont = new Font("Ebrima Bold", Font.BOLD, 14);
+            Font labelFont = new Font("Ebrima Bold", Font.BOLD, 16);
             JLabel numLabel = new JLabel(String.valueOf(cells[row][column].getNum()));
             numLabel.setFont(labelFont);
             numLabel.setForeground(labelColor);
@@ -171,8 +172,6 @@ public class Minefield extends JPanel implements ActionListener {
     }
 
     public void setGameToWon() {
-        Component greg = getParent();
-        JOptionPane.showMessageDialog(greg, "YOU WON BABY");
         fireActionEvent("w");
     }
 

@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.net.URL;
 
 public class Cell extends JButton {
     int rowIndex, columnIndex, num;
@@ -12,10 +11,13 @@ public class Cell extends JButton {
         columnIndex = column;
         flagged = false;
         mine = false;
+        setIcon(new ImageIcon("resources/buttonIcon.png"));
+        setPressedIcon(new ImageIcon("resources/pressedButtonIcon.png"));
+        ImageIcon flag = new ImageIcon("resources/flag.png");
+        setDisabledIcon(flag);
         setPreferredSize(cellSize);
         setSize(cellSize);
-
-        ImageIcon flag = new ImageIcon("resources/flag.png");
+        setFocusable(false);
 
         addMouseListener(new MouseAdapter() {
             @Override
@@ -23,12 +25,12 @@ public class Cell extends JButton {
                 if (e.getButton() == MouseEvent.BUTTON3) {
                     if (isEnabled()) {
                         setEnabled(false);
-                        setIcon(flag);
-                        setDisabledIcon(flag);
+                        //setIcon(flag);
+                        //setDisabledIcon(flag);
                         flagged = true;
                     } else {
                         setEnabled(true);
-                        setIcon(null);
+                        //setIcon(null);
                         flagged = false;
                     }
                 }
