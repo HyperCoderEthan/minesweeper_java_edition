@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 public class Minefield extends JPanel implements ActionListener {
     Cell[][] cells;
+    JLabel[][] labels;
     Dimension cellSize = new Dimension(25, 25);
     Color color1 = new Color(236, 232, 221);
     Color color2 = new Color(248, 244, 234);
@@ -25,6 +26,7 @@ public class Minefield extends JPanel implements ActionListener {
         locator.insets = new Insets(0,0,0,0);
 
         cells = new Cell[yCells][xCells];
+        labels = new JLabel[yCells][xCells];
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {
                 cells[i][j] = new Cell(i, j, cellSize);
@@ -64,10 +66,7 @@ public class Minefield extends JPanel implements ActionListener {
             setNums();
             firstOpeningHappened = true;
         }
-
         digCell(y, x);
-        revalidate();
-        repaint();
     }
 
     @Override
@@ -130,7 +129,7 @@ public class Minefield extends JPanel implements ActionListener {
     }
 
     public void digCell(int row, int column) {
-        remove(cells[row][column]);
+        cells[row][column].setVisible(false);
 
         locator.gridx = column;
         locator.gridy = row;
@@ -141,16 +140,8 @@ public class Minefield extends JPanel implements ActionListener {
             cells[row][column].setRemoved(true);
             setGameToLost();
         } else if (cells[row][column].getNum() != 0){
-            Color labelColor = getNumColor(cells[row][column].getNum());
-
-            Font labelFont = new Font("Ebrima Bold", Font.BOLD, 16);
-            JLabel numLabel = new JLabel(String.valueOf(cells[row][column].getNum()));
-            numLabel.setFont(labelFont);
-            numLabel.setForeground(labelColor);
-
-            numLabel.setSize(cellSize);
-            numLabel.setHorizontalTextPosition(JLabel.CENTER);
-            add(numLabel, locator);
+            cells[row][column].setVisible(false);
+            labels[row][column].setVisible(true);
             dugCellCount++;
         } else {
             HashSet<Cell> emptyCells = getAllContiguousCells(row, column);
@@ -158,7 +149,7 @@ public class Minefield extends JPanel implements ActionListener {
             while (iter.hasNext()) {
                 Cell c = (Cell) iter.next();
                 if (!c.equals(cells[row][column])) {
-                    remove(c);
+                    c.setVisible(false);
                 }
             }
             dugCellCount += emptyCells.size();
@@ -280,6 +271,22 @@ public class Minefield extends JPanel implements ActionListener {
             for (int j = 0; j < cells[i].length; j++) {
                 if (!cells[i][j].isMine())
                     sumThisCell(i, j);
+                    Color labelColor = getNumColor(cells[i][j].getNum());
+
+                    Font labelFont = new Font("Ebrima Bold", Font.BOLD, 16);
+                    JLabel numLabel = new JLabel(String.valueOf(cells[i][j].getNum()));
+                    numLabel.setFont(labelFont);
+                    numLabel.setForeground(labelColor);
+
+                    numLabel.setSize(cellSize);
+                    numLabel.setHorizontalTextPosition(JLabel.CENTER);
+                    numLabel.setVisible(false);
+
+                    labels[i][j] = numLabel;
+
+                    locator.gridy = i;
+                    locator.gridx = j;
+                    add(numLabel, locator);
             }
         }
     }
