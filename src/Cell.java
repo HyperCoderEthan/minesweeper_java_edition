@@ -14,7 +14,6 @@ public class Cell extends JButton {
         setIcon(new ImageIcon("resources/buttonIcon.png"));
         setPressedIcon(new ImageIcon("resources/pressedButtonIcon.png"));
         ImageIcon flag = new ImageIcon("resources/flag.png");
-        setDisabledIcon(flag);
         setPreferredSize(cellSize);
         setSize(cellSize);
         setFocusable(false);
@@ -24,13 +23,12 @@ public class Cell extends JButton {
             public void mouseReleased(MouseEvent e) {
                 if (e.getButton() == MouseEvent.BUTTON3) {
                     if (isEnabled()) {
+                        setDisabledIcon(flag);
                         setEnabled(false);
-                        //setIcon(flag);
-                        //setDisabledIcon(flag);
                         flagged = true;
                     } else {
+                        setDisabledIcon(null);
                         setEnabled(true);
-                        //setIcon(null);
                         flagged = false;
                     }
                 }
