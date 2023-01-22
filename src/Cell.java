@@ -11,6 +11,7 @@ public class Cell extends JButton {
         columnIndex = column;
         flagged = false;
         mine = false;
+
         setIcon(new ImageIcon("resources/buttonIcon.png"));
         setPressedIcon(new ImageIcon("resources/pressedButtonIcon.png"));
         ImageIcon flag = new ImageIcon("resources/flag.png");
